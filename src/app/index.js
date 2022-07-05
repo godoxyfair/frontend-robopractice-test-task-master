@@ -17,22 +17,16 @@ export const App = () => {
     const dataSource = [];
 
    async function getResponse() {
-       let response = await fetch('http://localhost:8080/api/users/', {
-           mode: "no-cors",
-           method: "get"}
-           )
+       let response = await fetch('http://localhost:8080/api/users/', {mode:'no-cors'})
        let content = await response.text()
        //let data = JSON.parse('[' + content + ']')
        //let data = [...content]
-       //console.log(typeof data)
-       console.log(response.body)
+       console.log(content)
 
-       let key ;
-       for (key in content) {
-           console.log(content[key])
-       }
     }
-    getResponse()
+   getResponse().then(res => {
+       console.log(res)
+   })
 
     const columns =  [
         {

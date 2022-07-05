@@ -3,7 +3,7 @@ const app = express()
 const port = 8080
 
 app.get('/api/users', (req, res) => {
-  console.log(req)
+  //console.log(req)
   res.send(
       require('./data.json')
   )
