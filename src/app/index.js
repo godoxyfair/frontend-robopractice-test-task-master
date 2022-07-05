@@ -21,21 +21,38 @@ export const App = () => {
         }
         getResponse().then(res => {
             setData(res)
-            setMonth(res.map((item) => item.Days))
-            setDays(res.map((item) => item.Days))
             })
+
     },[])
 
     const [data, setData] = useState([])
     const [month, setMonth] = useState([])
-    const [days, setDays] = useState([])
-    console.log('dateDays',month)
+    const [daysStart, setDaysStart] = useState([])
+    const [daysEnd, setDaysEnd] = useState([])
+    const [dataSingle, setDataSingle] = useState({})
 
-    // async function getDataDays() {
-    //     await console.log(month[0].length)
-    //     await console.log(month[0][0].Date)
-    // }
-    // getDataDays()
+    useEffect(()=> {
+        // setMonth(data.map((item) => item.Days))
+        // setDaysStart(data.map((item) => item.Days[0].Start))
+        // setDaysEnd(data.map((item) => item.Days[0].End))
+        setDataSingle(data[0])
+        //console.log('single', dataSingle)
+        //console.log('single', dataSingle.Days)
+    },[data])
+
+        // console.log('month',month)
+        // console.log('DaysStart',daysStart)
+        // console.log('DaysEnd',daysEnd)
+
+        // useEffect(() => {
+        //
+        //     if ( dataSingle.Days.length > 0 ) {
+        //     const singleDataMyObject = dataSingle.Days.reduce((acc, element) => {return {...acc, [element.Date] : element.Start}}, {})
+        //     console.log(singleDataMyObject)
+        //     }
+        // },[dataSingle])
+
+    //КОНВЕРТИРОВАТЬ dateSingle в объект
 
     const columns =  [
         {
@@ -50,13 +67,20 @@ export const App = () => {
             key: '2',
             fixed: 'left',
         },
-
+        {
+            key: '3',
+            dataIndex: '',
+            title: (el) => {console.log('console text', el)
+                return 5},
+            fixed: 'left',
+        }
     ];
+
     for (let i = 1; i <= 31; i++) {
         columns.push( {
             key: i,
             title: `${i}`,
-            dataIndex: 'Date',
+            dataIndex: 'Date[Days]',
         });
     }
     columns.push({
@@ -65,9 +89,10 @@ export const App = () => {
         dataIndex: 'Date',
     })
 
+
     return (
         <div className="App">
-                <Table  dataSource={data} columns={columns} />
+                <Table  dataSource={[dataSingle]} columns={columns} />
         </div>
     )
 }
