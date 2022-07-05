@@ -9,11 +9,7 @@ import {useEffect, useState} from "react";
     {key: 3, name: 'Lay', address: '123456'},
 ]);*/
 
-
-
 export const App = () => {
-
-
 
     useEffect(() => {
         async function getResponse() {
@@ -26,38 +22,48 @@ export const App = () => {
         getResponse().then(res => {
             setData(res)
             setMonth(res.map((item) => item.Days))
-
+            setDays(res.map((item) => item.Days))
             })
     },[])
 
     const [data, setData] = useState([])
     const [month, setMonth] = useState([])
     const [days, setDays] = useState([])
-    console.log('dateDays',days)
+    console.log('dateDays',month)
 
-    //console.log(month[0][0].Date)
-
+    // async function getDataDays() {
+    //     await console.log(month[0].length)
+    //     await console.log(month[0][0].Date)
+    // }
+    // getDataDays()
 
     const columns =  [
         {
             title: 'ID',
             dataIndex: 'id',
             key: '1',
+            fixed: 'left',
         },
         {
             title: 'User',
             dataIndex: 'Fullname',
             key: '2',
+            fixed: 'left',
         },
-        {
-            title: 'Data',
-            dataIndex: 'Date',
-            key: '3',
-        },
+
     ];
-
-
-
+    for (let i = 1; i <= 31; i++) {
+        columns.push( {
+            key: i,
+            title: `${i}`,
+            dataIndex: 'Date',
+        });
+    }
+    columns.push({
+        key: 33,
+        title: 'Total',
+        dataIndex: 'Date',
+    })
 
     return (
         <div className="App">
