@@ -18,7 +18,6 @@ export const App = () => {
     useEffect(() => {
         async function getResponse() {
             let response = await fetch('http://localhost:8080/api/users/')
-            //let data = JSON.parse('[' + content + ']')
             //let data = [...content]
 
             //console.log('Line 25', content)
@@ -32,13 +31,12 @@ export const App = () => {
     },[])
 
     const [data, setData] = useState([])
-
-    //const newDate = data.splice(0,2)
-    //console.log(setDays)
-    //const dataSource = data;
     const [month, setMonth] = useState([])
     const [days, setDays] = useState([])
-    console.log(month[0])
+    console.log('dateDays',days)
+
+    //console.log(month[0][0].Date)
+
 
     const columns =  [
         {
