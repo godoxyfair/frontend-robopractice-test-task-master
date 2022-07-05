@@ -4,6 +4,8 @@ const port = 8080
 
 app.get('/api/users', (req, res) => {
   //console.log(req)
+  //TODO: разрешения для CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(
       require('./data.json')
   )

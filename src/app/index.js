@@ -3,7 +3,6 @@ import 'antd/dist/antd.css';
 import {useEffect, useState} from "react";
 
 
-
 /*const [dataSource, setDataSource] = useState( [
     {key: 1, name: 'may', address: '12'},
     {key: 2, name: 'Bay', address: '1234'},
@@ -14,37 +13,57 @@ import {useEffect, useState} from "react";
 
 export const App = () => {
 
-    const dataSource = [];
 
-   async function getResponse() {
-       let response = await fetch('http://localhost:8080/api/users/', {mode:'no-cors'})
-       let content = await response.text()
-       //let data = JSON.parse('[' + content + ']')
-       //let data = [...content]
-       console.log(content)
 
-    }
-   getResponse().then(res => {
-       console.log(res)
-   })
+    useEffect(() => {
+        async function getResponse() {
+            let response = await fetch('http://localhost:8080/api/users/')
+            //let data = JSON.parse('[' + content + ']')
+            //let data = [...content]
+
+            //console.log('Line 25', content)
+            return response.json();
+        }
+        getResponse().then(res => {
+            setData(res)
+            setMonth(res.map((item) => item.Days))
+
+            })
+    },[])
+
+    const [data, setData] = useState([])
+
+    //const newDate = data.splice(0,2)
+    //console.log(setDays)
+    //const dataSource = data;
+    const [month, setMonth] = useState([])
+    const [days, setDays] = useState([])
+    console.log(month[0])
 
     const columns =  [
         {
             title: 'ID',
             dataIndex: 'id',
-            //key: '',
+            key: '1',
         },
         {
             title: 'User',
             dataIndex: 'Fullname',
-            //key: '',
+            key: '2',
+        },
+        {
+            title: 'Data',
+            dataIndex: 'Date',
+            key: '3',
         },
     ];
 
 
+
+
     return (
         <div className="App">
-                <Table  dataSource={dataSource} columns={columns} />
+                <Table  dataSource={data} columns={columns} />
         </div>
     )
 }
