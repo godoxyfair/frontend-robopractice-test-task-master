@@ -52,65 +52,92 @@ export const App = () => {
     const [singleDataObjectStart, setSingleDataObjectStart] = useState({})
     const [singleDataObjectEnd, setSingleDataObjectEnd] = useState({})
 
-    useEffect(()=> {
-        // setMonth(data.map((item) => item.Days))
-        // setDaysStart(data.map((item) => item.Days[0].Start))
-        // setDaysEnd(data.map((item) => item.Days[0].End))
-
-            data?.length > 0 ? setDataSingle(data[3]) : console.log('ERROR')
-                // for (let i = 0; i< data?.length; i++) {
-                //     setDataSingle(data[i]) //вот тут надо все данные выводить а не одного
-                // }
-
-      // console.log('single1', dataSingle)
-        //console.log('single2', dataSingle.Days)
-    },[data])
-console.log( dataSingle?.Days)
+    // useEffect(()=> {
+    //     // setMonth(data.map((item) => item.Days))
+    //     // setDaysStart(data.map((item) => item.Days[0].Start))
+    //     // setDaysEnd(data.map((item) => item.Days[0].End))
+    //
+    //         data?.length > 0 ? setDataSingle(data[3]) : console.log('ERROR')
+    //             // for (let i = 0; i< data?.length; i++) {
+    //             //     setDataSingle(data[i]) //вот тут надо все данные выводить а не одного
+    //             // }
+    //
+    //   // console.log('single1', dataSingle)
+    //     //console.log('single2', dataSingle.Days)
+    // },[data])
+//console.log( dataSingle?.Days)
         // console.log('month',month)
         // console.log('DaysStart',daysStart)
         // console.log('DaysEnd',daysEnd)
         //
    // console.log('single2', dataSingle)
-    let newArrayDate = []
-
-    function ArrayMutation() {} {
-
-        let trueArrayDays = [
-            '2021-05-01','2021-05-02', '2021-05-03', '2021-05-04','2021-05-05', '2021-05-06','2021-05-07',
-            '2021-05-08', '2021-05-09', '2021-05-10','2021-05-11','2021-05-12', '2021-05-13', '2021-05-14', '2021-05-15',
-            '2021-05-16','2021-05-17', '2021-05-18', '2021-05-19','2021-05-20', '2021-05-21', '2021-05-22', '2021-05-23',
-            '2021-05-24', '2021-05-25', '2021-05-26', '2021-05-27', '2021-05-28', '2021-05-29', '2021-05-30', '2021-05-31'
-        ]
-        //let newArrayDate = []
-
-        for (let s of trueArrayDays) {
-            const found = dataSingle?.Days?.find(feature => feature?.Date === s);
-            newArrayDate.push(found || { Date: s, End: '0', Start: '0'  });
-        }
-
-        console.log(newArrayDate);
-
-    }
-    console.log('newArray',newArrayDate)
 
 
+    //console.log('newArray',newArrayDate)
+//TODO: заполнить массив нормально
+    const trueArrayDays = [
+        '2021-05-01','2021-05-02', '2021-05-03', '2021-05-04','2021-05-05', '2021-05-06','2021-05-07',
+        '2021-05-08', '2021-05-09', '2021-05-10','2021-05-11','2021-05-12', '2021-05-13', '2021-05-14', '2021-05-15',
+        '2021-05-16','2021-05-17', '2021-05-18', '2021-05-19','2021-05-20', '2021-05-21', '2021-05-22', '2021-05-23',
+        '2021-05-24', '2021-05-25', '2021-05-26', '2021-05-27', '2021-05-28', '2021-05-29', '2021-05-30', '2021-05-31'
+    ]
         useEffect(() => {
-            let  singleDataMyObjectStart = {}
-            let  singleDataMyObjectEnd ={}
-            //optional chaining ?
-            if ( newArrayDate && newArrayDate.length > 0 ) {
-                singleDataMyObjectStart = newArrayDate.reduce((acc, element) => {return {...acc,  [element?.Date ] : element?.Start}}, {} )
-                singleDataMyObjectEnd = newArrayDate.reduce((acc, element) => {return {...acc,  [element?.Date ] : element?.End}}, {})
+            //console.log(data)
+            if (data && data?.length > 0) {
+            //console.log('WORK')
 
-                //console.log('singleDataMyObject',singleDataMyObject)
+
+            function arrayMutation(user) {
+                const newArrayDate = []
+
+                //let newArrayDate = []
+
+                for (let s of trueArrayDays) {
+                    const found = user?.Days?.find(feature => feature?.Date === s);
+                    newArrayDate.push(found || { Date: s, End: '0', Start: '0'  });
+                }
+                //console.log(newArrayDate)
+                return {id: user?.id, Fullname: user?.Fullname ,Days: newArrayDate}
+                //console.log(newArrayDate);
+
             }
-            setSingleDataObjectStart(singleDataMyObjectStart)
-            setSingleDataObjectEnd(singleDataMyObjectEnd)
-        },[ dataSingle])
-    let setSingleDataObjectDuration ={}
+
+            //data.forEach(user => {arrayMutation(user?.Days)})
+
+              const newUsers = data.map(user => {return arrayMutation(user)})
+            //arrayMutation(dataSingle?.Days)
+            //console.log(newUsers)
+
+
+                function userArrayToObject(user) {
+                    let  singleDataMyObjectStart = {}
+                    let  singleDataMyObjectEnd ={}
+                    //console.log('user', user)
+                    //optional chaining ?
+                    //if ( user?.length > 0 ) {
+                        //console.log('work')
+                    //TODO
+                        singleDataMyObjectStart = user.Days.reduce((acc, element) => {return {...acc,  [element.Date ] : element.Start}}, {id: user?.id, Fullname: user?.Fullname} )
+                        //singleDataMyObjectEnd = user.reduce((acc, element) => {return {...acc,  [element?.Date ] : element?.End}}, {})
+
+                   // }
+                    //console.log('singleDataMyObjectStart',singleDataMyObjectStart)
+                    //setSingleDataObjectStart(singleDataMyObjectStart)
+                    //setSingleDataObjectEnd(singleDataMyObjectEnd)
+                    return singleDataMyObjectStart
+                }
+
+                const newUsersDate =  newUsers.map(user => {return userArrayToObject(user)})
+                console.log('newUsersDate',newUsersDate)
+                setSingleDataObjectStart(newUsersDate)
+                }
+        },[ data])
+
+    //console.log('singleDataObjectStart',singleDataObjectStart)
+    //let setSingleDataObjectDuration ={}
     //КОНВЕРТИРОВАТЬ dateSingle в объект
     let allObject = {id:dataSingle.id, Fullname:dataSingle.Fullname, ...singleDataObjectStart};
-   let keys = Object.keys(singleDataObjectStart)
+  // let keys = Object.keys(singleDataObjectStart)
 
    //console.log('singleDataObject',singleDataObject)
     //console.log(dataSingle)
@@ -137,11 +164,11 @@ console.log( dataSingle?.Days)
         // }
     ];
 
-    for (let i = 0; i < 31; i++) {
+    for (let s of trueArrayDays) {
         columns.push( {
-            key: i,
-            title: `${i+1}`,
-            dataIndex: keys[i],
+            key: s,
+            title: `${s}`,
+            dataIndex: trueArrayDays[s],
         });
     }
     columns.push({
