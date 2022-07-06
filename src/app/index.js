@@ -49,43 +49,70 @@ export const App = () => {
     const [daysStart, setDaysStart] = useState([])
     const [daysEnd, setDaysEnd] = useState([])
     const [dataSingle, setDataSingle] = useState([])
-    const [singleDataObject, setSingleDataObject] = useState({})
+    const [singleDataObjectStart, setSingleDataObjectStart] = useState({})
+    const [singleDataObjectEnd, setSingleDataObjectEnd] = useState({})
 
     useEffect(()=> {
         // setMonth(data.map((item) => item.Days))
         // setDaysStart(data.map((item) => item.Days[0].Start))
         // setDaysEnd(data.map((item) => item.Days[0].End))
-        const timer = setTimeout (() => {
-            if (data?.length > 0) {
-                setDataSingle(data[0])
-            } else {
-                console.log('ERROR')
-            }
 
-        }, 1000)
+            data?.length > 0 ? setDataSingle(data[3]) : console.log('ERROR')
+                // for (let i = 0; i< data?.length; i++) {
+                //     setDataSingle(data[i]) //вот тут надо все данные выводить а не одного
+                // }
 
       // console.log('single1', dataSingle)
         //console.log('single2', dataSingle.Days)
     },[data])
-//console.log( dataSingle)
+console.log( dataSingle?.Days)
         // console.log('month',month)
         // console.log('DaysStart',daysStart)
         // console.log('DaysEnd',daysEnd)
         //
+   // console.log('single2', dataSingle)
+    let newArrayDate = []
+
+    function ArrayMutation() {} {
+
+        let trueArrayDays = [
+            '2021-05-01','2021-05-02', '2021-05-03', '2021-05-04','2021-05-05', '2021-05-06','2021-05-07',
+            '2021-05-08', '2021-05-09', '2021-05-10','2021-05-11','2021-05-12', '2021-05-13', '2021-05-14', '2021-05-15',
+            '2021-05-16','2021-05-17', '2021-05-18', '2021-05-19','2021-05-20', '2021-05-21', '2021-05-22', '2021-05-23',
+            '2021-05-24', '2021-05-25', '2021-05-26', '2021-05-27', '2021-05-28', '2021-05-29', '2021-05-30', '2021-05-31'
+        ]
+        //let newArrayDate = []
+
+        for (let s of trueArrayDays) {
+            const found = dataSingle?.Days?.find(feature => feature?.Date === s);
+            newArrayDate.push(found || { Date: s, End: '0', Start: '0'  });
+        }
+
+        console.log(newArrayDate);
+
+    }
+    console.log('newArray',newArrayDate)
+
+
         useEffect(() => {
-            let  singleDataMyObject = {}
+            let  singleDataMyObjectStart = {}
+            let  singleDataMyObjectEnd ={}
+            //optional chaining ?
+            if ( newArrayDate && newArrayDate.length > 0 ) {
+                singleDataMyObjectStart = newArrayDate.reduce((acc, element) => {return {...acc,  [element?.Date ] : element?.Start}}, {} )
+                singleDataMyObjectEnd = newArrayDate.reduce((acc, element) => {return {...acc,  [element?.Date ] : element?.End}}, {})
 
-            if ( dataSingle && dataSingle?.Days?.length > 0 ) {
-            singleDataMyObject = dataSingle?.Days?.reduce((acc, element) => {return {...acc,  [element?.Date ] : element?.Start}}, {})
-            console.log('singleDataMyObject',singleDataMyObject)
+                //console.log('singleDataMyObject',singleDataMyObject)
             }
-            setSingleDataObject(singleDataMyObject)
+            setSingleDataObjectStart(singleDataMyObjectStart)
+            setSingleDataObjectEnd(singleDataMyObjectEnd)
         },[ dataSingle])
-
+    let setSingleDataObjectDuration ={}
     //КОНВЕРТИРОВАТЬ dateSingle в объект
-    let allObject = Object.assign({},dataSingle, singleDataObject);
-   let keys = Object.keys(singleDataObject)
-    console.log('singleDataObject',singleDataObject)
+    let allObject = {id:dataSingle.id, Fullname:dataSingle.Fullname, ...singleDataObjectStart};
+   let keys = Object.keys(singleDataObjectStart)
+
+   //console.log('singleDataObject',singleDataObject)
     //console.log(dataSingle)
     // console.log(allObject)
     const columns =  [
@@ -101,16 +128,16 @@ export const App = () => {
             key: '2',
             fixed: 'left',
         },
-        {
-            key: '3',
-            dataIndex: '',
-            title: (el) => {console.log('console text', el)
-                return 1},
-            fixed: 'left',
-        }
+        // {
+        //     key: '3',
+        //     dataIndex: '',
+        //     title: (el) => {console.log('console text', el)
+        //         return 1},
+        //     fixed: 'left',
+        // }
     ];
 
-    for (let i = 0; i <= 31; i++) {
+    for (let i = 0; i < 31; i++) {
         columns.push( {
             key: i,
             title: `${i+1}`,
@@ -121,6 +148,7 @@ export const App = () => {
         key: 33,
         title: 'Total',
         dataIndex: 'Date',
+        fixed: 'right',
     })
 
 
